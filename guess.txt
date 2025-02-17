@@ -1,0 +1,14 @@
+Guess number is 50
+50 is bigger. Chance left : 6
+Guess number is 25
+25 is bigger. Chance left : 5
+Guess number is 12
+12 is bigger. Chance left : 4
+Guess number is 6
+6 is lower. Chance left : 3
+Guess number is 9
+9 is bigger. Chance left : 2
+Guess number is 7
+7 is lower. Chance left : 1
+Guess number is 8
+You win. Answer is 8
