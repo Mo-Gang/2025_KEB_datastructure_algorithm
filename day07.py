@@ -1,18 +1,17 @@
+# v7.3.1에서 더 업그레이드 하기.
+# 모듈러 연산(나누기 방식) 활용해서.
+# 선형이 아닌, 원형 큐 방식으로. #for문 제거 가능
+# empty와 full 상태 구분을 위해, 공간 하나 버리기.
+
+
+
 def is_queue_full() :
     global size, queue, front, rear
-    if rear != (size -1):    #뒤쪽이 비어있을 때
-        return False
-    elif (front == -1) and (rear == size-1):    #꽉 찼을 때
+    if (rear + 1) % size == front:  # 모듈러 연산
         return True
     else:
-        for i in range(front+1, size):    #앞쪽이 비어있을 때
-            queue[i-1] = queue[i]
-            queue[i] = None
-        front = front -1
-        rear = rear -1
         return False
-    #if나 for 활용하여, front와 rear 조정.
-    #앞쪽이 비어있거나 뒤쪽이 비어있거나.
+
 
 def is_queue_empty() :
     global size, queue, front, rear
@@ -21,35 +20,40 @@ def is_queue_empty() :
     else :
         return False
 
+
 def en_queue(data) :
     global size, queue, front, rear
     if is_queue_full():
         print("큐가 꽉 찼습니다.")
         return
-    rear += 1
+    #rear += 1
+    rear = (rear + 1) % size  # !
     queue[rear] = data
+
 
 def de_queue() :
     global size, queue, front, rear
     if is_queue_empty():
         print("큐가 비었습니다.")
         return None
-    front += 1
+    #front += 1
+    front = (front + 1) % size  # !
     data = queue[front]
     queue[front] = None
     return data
+
 
 def peek() :
     global size, queue, front, rear
     if is_queue_empty():
         print("큐가 비었습니다.")
         return None
-    return queue[front+1]
+    return queue[(front + 1) % size]  # !
 
 
 size = int(input("큐의 크기를 입력 : "))
 queue = [None for _ in range(size)]
-front = rear = -1
+front = rear = 0  # !
 
 if __name__ == "__main__" :
     while True:
