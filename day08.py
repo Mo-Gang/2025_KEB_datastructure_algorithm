@@ -1,76 +1,39 @@
-class TreeNode:
-	def __init__(self):
-		self.left = None
-		self.data = None
-		self.right = None
+def dfs(g, i, visited):
+    visited[i] = 1
+    print(chr(ord('A')+i), end=' ')
+    for j in range(len(g)):
+        if g[i][j] == 1 and not visited[j]:   #연결이 돼있으면서 동시에 방문한 적이 없는.
+            dfs(g, j, visited)  #다 끝나면 자기를 호출했던 함수로 돌아간다 #재귀
+            # 쭉 가다가, 갈 곳이 아니면 return 한다는 말.
 
+graph = [
+    [0, 0, 1, 1, 0],
+    [0, 0, 1, 0, 0],
+    [1, 1, 0, 1, 1],
+    [1, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0]
+]
 
-if __name__ == "__main__":
-    numbers = [10, 15, 8, 3, 9]
-    root = None
+# visited = [0] * len(graph)
+# dfs(graph, 0, visited)
 
-    node = TreeNode()
-    node.data = numbers[0]
-    root = node
+visited = [0] * len(graph)
+dfs(graph, 4, visited)
 
-    for group in numbers[1:]:
-        node = TreeNode()
-        node.data = group
-        current = root
-        while True:
-            if group < current.data:
-                if current.left is None:
-                    current.left = node
-                    break
-                current = current.left  # move
-            else:
-                if current.right is None:
-                    current.right = node
-                    break
-                current = current.right  # move
+"""
+visited
+[0,0,0,0,0]
+[0,0,0,0,1] E
+[0,0,1,0,1] C
+[1,0,1,0,1] A
+[1,0,1,1,1] D: A와 C는 visited, 따라서 A(자기를 호출한 함수)로 return.
+근데 A에서도 다 visited라, return. (C로)
+(D -> A -> C)
+[1,1,1,1,1] B: B 다 처리됐으니까 return.
+(-> B -> C -> E: 완성~)
+"""
 
-
-  # # 삭제 # #
-delete_number = 4 # -> 4 이 트리에 없음  / 9 -> 9 이 삭제됨요
-
-current = root
-parent = None
-while True:
-    if delete_number == current.data:
-        if current.left == None and current.right == None:
-            if parent.left == current:
-                parent.left = None
-            else:
-                parent.right = None
-            del(current)
-        elif current.left != None and current.right == None:
-            if parent.left == current:
-                parent.left = current.left
-            else:
-                parent.right = current.left
-            del(current)
-        elif current.left == None and current.right != None:
-            if parent.right == current:
-                parent.right = current.right
-            else:
-                parent.right = current.right
-            del(current)
-
-        print(delete_number, '이 삭제됨요')
-        break
-    elif delete_number < current.data:
-        if current.left == None:
-            print(delete_number, '이 트리에 없음')
-            break
-        parent=current
-        current = current.left
-    else:
-        if current.right == None:
-            print(delete_number, '이 트리에 없음')
-            break
-        parent=current
-        current = current.right
-
+print(visited)
 
 
 
