@@ -1,30 +1,4 @@
-# # 이진트리의 순회 Traversal
-
-
-#전위(처-왼-오)
-def pre_order(node):
-    if node is None:
-        return
-    print(node.data, end='-') #처
-    pre_order(node.left) #왼
-    pre_order(node.right) #오
-
-#중위(왼-처-오)
-def in_order(node):
-    if node is None:
-        return
-    in_order(node.left) #왼
-    print(node.data, end='-') #처
-    in_order(node.right) #오
-
-#후위(왼-오-처)
-def post_order(node):
-    if node is None:
-        return
-    post_order(node.left) #왼
-    post_order(node.right) #오
-    print(node.data, end='-') #처
-
+## group 추가
 
 class TreeNode:
 	def __init__(self):
@@ -32,40 +6,53 @@ class TreeNode:
 		self.data = None
 		self.right = None
 
-node1 = TreeNode()
-node1.data = 'hs'
 
-node2 = TreeNode()
-node2.data = 'sl'
-node1.left = node2
+if __name__ == "__main__":
+    numbers = [10, 15, 8, 3, 9]
+    root = None
 
-node3 = TreeNode()
-node3.data = 'mb'
-node1.right = node3
+    node = TreeNode()       #node 초기화 과정
+                            #node 는 계속 업데이트 될 예정.
+    node.data = numbers[0]
+    root = node
 
-node4 = TreeNode()
-node4.data = 'hw'
-node2.left = node4
+    for group in numbers[1:]: #1번방부터 끝방까지 슬라이싱
+        node = TreeNode()
+        node.data = group
+        current = root    #current = root & while True
+        while True:
+            if group < current.data:
+                if current.left is None:  #왼쪽에 붙는 경우
+                    current.left = node
+                    break
+                current = current.left  # 이동
+            else:
+                if current.right is None:  #오른쪽에 붙는 경우
+                    current.right = node
+                    break
+                current = current.right  # m이동
 
-node5 = TreeNode()
-node5.data = 'zz'
-node2.right = node5
-
-node6 = TreeNode()
-node6.data = 'sm'
-node3.left = node6
-
-node7 = TreeNode()
-node7.data = 'dy'
-node4.right = node7
-
-node8 = TreeNode()
-node8.data = 'sn'
-node6.right=node8
+    print("BST 구성 완료")
 
 
-post_order(node1)
-print()
-pre_order(node1)
-print()
-in_order(node1)
+## find_group
+    find_group = int(input())
+
+    current = root
+    while True:
+        if find_group == current.data:
+            print(f"{find_group}을(를) 찾았습니다")
+            break
+        elif find_group < current.data: # elif에서 거짓이면 else로 감
+            if current.left is None:
+                print(f"{find_group}이(가) 존재하지 않습니다")
+                break
+            current = current.left # 왼쪽에 뭐가 있으니, 이동
+        else:
+            if current.right is None:
+                print(f"{find_group}이(가) 존재하지 않습니다")
+                break
+            current = current.right # 오른쪽에 뭐가 있으니, 이동
+
+
+
